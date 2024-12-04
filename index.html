@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan Harga Komponen Mekanik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Kalkulator Harga Komponen Mekanik</h2>
+            <form id="calculateForm" class="space-y-4">
+                <div>
+                    <label for="hargaDasar" class="block text-gray-700 font-medium">Harga Dasar Komponen (USD)</label>
+                    <input type="number" id="hargaDasar" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="0.55" min="0" required>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label for="jumlahEngine" class="block text-gray-700 font-medium">Komponen Perbaikan Engine</label>
+                        <input type="number" id="jumlahEngine" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan jumlah" value="0">
+                    </div>
+                    <div class="flex-1">
+                        <label for="jumlahBody" class="block text-gray-700 font-medium">Komponen Perbaikan Body</label>
+                        <input type="number" id="jumlahBody" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan jumlah" value="0">
+                    </div>
+                </div>
+                <div>
+                    <label for="keuntungan" class="block text-gray-700 font-medium">Keuntungan (USD)</label>
+                    <input type="number" id="keuntungan" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan keuntungan" value="0">
+                </div>
+                <button type="button" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" onclick="hitungTotal()">Hitung</button>
+            </form>
+
+            <div id="resultPanel" class="mt-6 hidden bg-gray-50 p-4 rounded-lg shadow-md">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">Hasil Perhitungan:</h4>
+                <div class="flex justify-between items-center mb-4">
+                    <div class="bg-blue-100 p-2 rounded-lg flex-1 mr-2">
+                        <p class="text-blue-700 font-medium">Total Modal:</p>
+                        <p id="hasilModal" class="text-lg font-bold text-blue-800"></p>
+                    </div>
+                    <div class="bg-green-100 p-2 rounded-lg flex-1 ml-2">
+                        <p class="text-green-700 font-medium">Total Harga:</p>
+                        <p id="hasilTotal" class="text-lg font-bold text-green-800"></p>
+                    </div>
+                </div>
+                <div class="bg-yellow-100 p-2 rounded-lg text-center">
+                    <p class="text-yellow-700 font-medium">Total Pendapatan:</p>
+                    <p id="pendapatan" class="text-lg font-bold text-yellow-800"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hitungTotal() {
+            const hargaDasar = parseFloat(document.getElementById('hargaDasar').value) || 0.55;
+            const jumlahEngine = parseInt(document.getElementById('jumlahEngine').value) || 0;
+            const jumlahBody = parseInt(document.getElementById('jumlahBody').value) || 0;
+            const keuntungan = parseFloat(document.getElementById('keuntungan').value) || 0;
+
+            if (hargaDasar < 0) {
+                alert("Harga dasar tidak boleh kurang dari 0.");
+                return;
+            }
+
+            // Kalkulasi total modal
+            const modalTotal = hargaDasar * (jumlahEngine + jumlahBody);
+
+            // Kalkulasi total harga dengan keuntungan
+            const totalHarga = modalTotal + keuntungan;
+
+            // Total pendapatan
+            const pendapatan = keuntungan;
+
+            // Tampilkan hasil
+            document.getElementById('hasilModal').innerText = `$${modalTotal.toFixed(2)}`;
+            document.getElementById('hasilTotal').innerText = `$${totalHarga.toFixed(2)}`;
+            document.getElementById('pendapatan').innerText = `$${pendapatan.toFixed(2)}`;
+
+            // Tampilkan panel hasil
+            document.getElementById('resultPanel').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
